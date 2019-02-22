@@ -14,7 +14,7 @@ INCLUDES := -I $(INCDIR) -I $(LFTDIR) -I $(MLXDIR)
 LIBS := -L $(LFTDIR) -lft -L $(MLXDIR)
 
 CC := gcc
-MLXFLAGS := -lmlx -framework OpenGL -framework AppKit -pthread
+MLXFLAGS := -lmlx -framework OpenGL -framework AppKit
 CCFLAGS := -Wall -Wextra -Werror
 
 all: lft mlx $(NAME)
@@ -41,7 +41,7 @@ mlxre:
 		@$(MAKE) -C $(MLXDIR) re
 
 $(NAME): $(OBJ)
-		@echo "Creating $@"
+		@echo "Your $@ is ready, sir!"
 		@$(CC) $(OBJ) $(LIBS) $(MLXFLAGS) -lm -o $(NAME)
 
 $(OBJ): | $(OBJDIR)
