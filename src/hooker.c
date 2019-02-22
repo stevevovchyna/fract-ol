@@ -15,12 +15,15 @@ int		key_hook(int key, t_fractol *data)
 	key == RIGTH ? data->x1 += 30 / data->zoom : 0;
 	key == DOWN ? data->y1 += 30 / data->zoom : 0;
 	key == UP ? data->y1 -= 30 / data->zoom : 0;
-	key == KISLATA ? data->color = 1677216 : 0;
-	key == COLOR2 ? data->color = 2050 : 0;
-	key == COLOR3 ? data->color = 265 : 0;
+	key == COLOR2 ? data->color = 521 : 0;
+	key == COLOR3 ? data->color = 771 : 0;
+    key == COLOR4 ? data->color += 5 : 0;
+    key == COLOR5 ? data->color -= 5 : 0;
+    if (key == KISLATA)
+        data->color = arc4random_uniform(16000000);
 	key == FREEZEJULIA ? data->julia_mouse = !data->julia_mouse : 0;
 	fract_calc(data);
-	return (0);
+ 	return (0);
 }
 
 int		mouse_hook(int mousekey, int x, int y, t_fractol *data)

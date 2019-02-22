@@ -19,7 +19,7 @@ void			mandelbrot_calc(t_fractol *data)
 	if (data->it == data->it_max)
 		put_pxl_to_img(data, data->x, data->y, 0x000000);
 	else
-		put_pxl_to_img(data, data->x, data->y, (data->color * data->it + 45));
+		put_pxl_to_img(data, data->x, data->y, data->color * data->it);
 }
 
 void			*mandelbrot(void *tab)

@@ -27,18 +27,18 @@ void	fract_init(t_fractol *data)
 	if (data->fract == 0)
 	{
 		INIT5(data->it_max, 50, data->zoom, 375, data->x1, -2,
-				data->y1, -1.3, data->color, 2050);
+				data->y1, -1.3, data->color, 21);
 	}
 	else if (data->fract == 1)
 	{
 		INIT5(data->it_max, 50, data->zoom, 250, data->x1, -2.0,
-				data->y1, -1.9, data->color, 265);
+				data->y1, -1.9, data->color, 771);
 		INIT3(data->c_r, 0.285, data->c_i, 0.01, data->julia_mouse, 1);
 	}
 	else if (data->fract == 2)
 	{
 		INIT5(data->it_max, 50, data->zoom, 220, data->x1, -2.2,
-				data->y1, -2.5, data->color, 265);
+				data->y1, -2.5, data->color, 521);
 	}
 	fract_calc(data);
 }

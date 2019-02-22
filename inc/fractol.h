@@ -1,6 +1,9 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
+# include <stdio.h>
+
+
 # include <mlx.h>
 # include <math.h>
 # include "libft.h"
@@ -22,6 +25,7 @@
 # define COLOR2 19
 # define COLOR3 20
 # define COLOR4 21
+# define COLOR5 23
 # define FREEZEJULIA 3
 # define LEFTMOUSE 1
 # define RIGHTMOUSE 2
@@ -48,7 +52,6 @@ typedef struct		s_fractol
 	int				y_max;
 	int				it;
 	int				it_max;
-	int				show_text;
 	long double		zoom;
 	long double		x1;
 	long double		y1;
