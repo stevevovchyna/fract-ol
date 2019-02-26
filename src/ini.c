@@ -1,77 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ini.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/26 16:34:24 by svovchyn          #+#    #+#             */
+/*   Updated: 2019/02/26 16:53:36 by svovchyn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-void	put_pxl_to_img(t_fractol *data, int x, int y, int color)
+void	pixel_to_image(t_fract *f, int x, int y, int color)
 {
-	if (data->x < WIDTH && data->y < WIDTH)
+	if (f->x < WIDTH && f->y < WIDTH)
 	{
-		color = mlx_get_color_value(data->mlx, color);
-		ft_memcpy(data->img_ptr + 4 * WIDTH * y + x * 4,
+		color = mlx_get_color_value(f->mlx, color);
+		ft_memcpy(f->img_ptr + 4 * WIDTH * y + x * 4,
 				&color, sizeof(int));
 	}
 }
 
-void	fract_calc(t_fractol *data)
+void	f_calc(t_fract *f)
 {
-	if (data->it_max < 0)
-		data->it_max = 0;
-	if (data->fract == 0)
-		mandelbrot_pthread(data);
-	else if (data->fract == 1)
-		julia_pthread(data);
-	else if (data->fract == 2)
-		burningship_pthread(data);
+	if (f->iter_max < 0)
+		f->iter_max = 0;
+	if (f->fractal == 0)
+		m_pthread(f);
+	else if (f->fractal == 1)
+		j_pthread(f);
+	else if (f->fractal == 2)
+		b_pthread(f);
+	else if (f->fractal == 3)
+		t_pthread(f);
 }
 
-void	fract_init(t_fractol *data)
+void	f_ini(t_fract *f)
 {
-	if (data->fract == 0)
+	if (f->fractal == 0)
 	{
-		INIT5(data->it_max, 50, data->zoom, 375, data->x1, -2,
-				data->y1, -1.3, data->color, 21);
+		INIT5(f->iter_max, 50, f->scale, 220, f->xs, -2,
+				f->ys, -1.3, f->color, 771);
 	}
-	else if (data->fract == 1)
+	else if (f->fractal == 1)
 	{
-		INIT5(data->it_max, 50, data->zoom, 250, data->x1, -2.0,
-				data->y1, -1.9, data->color, 771);
-		INIT3(data->c_r, 0.285, data->c_i, 0.01, data->julia_mouse, 1);
+		INIT5(f->iter_max, 50, f->scale, 180, f->xs, -2.0,
+				f->ys, -1.9, f->color, 771);
+		INIT3(f->xr, 0.285, f->zyr, 0.01, f->julia_mouse, 1);
 	}
-	else if (data->fract == 2)
+	else if (f->fractal == 2)
 	{
-		INIT5(data->it_max, 50, data->zoom, 220, data->x1, -2.2,
-				data->y1, -2.5, data->color, 521);
+		INIT5(f->iter_max, 50, f->scale, 200, f->xs, -2,
+				f->ys, -2, f->color, 521);
 	}
-	fract_calc(data);
+	else if (f->fractal == 3)
+	{
+		INIT5(f->iter_max, 50, f->scale, 200, f->xs, -2,
+				f->ys, -2, f->color, 521);
+	}
+	f_calc(f);
 }
 
-int		fract_comp(char **argv, t_fractol *data)
+int		f_pick(char **argv, t_fract *f)
 {
 	if (ft_strcmp(argv[1], "mandelbrot") == 0)
-		data->fract = 0;
+		f->fractal = 0;
 	else if (ft_strcmp(argv[1], "julia") == 0)
-		data->fract = 1;
+		f->fractal = 1;
 	else if (ft_strcmp(argv[1], "burningship") == 0)
-		data->fract = 2;
+		f->fractal = 2;
+	else if (ft_strcmp(argv[1], "tricorn") == 0)
+		f->fractal = 3;
 	else
 	{
-		ft_putendl("Usage /fractol \"mandelbrot\", \"julia\", \"burningship\"");
+		ft_putendl("Usage: /fractol mandelbrot|julia|burningship|tricorn");
 		return (0);
 	}
 	return (1);
 }
 
-void	run_fractal(t_fractol *data, char **argv)
+void	run_fractal(t_fract *f, char **argv)
 {
-	data->mlx = mlx_init();
-	data->win = mlx_new_window(data->mlx, WIDTH, WIDTH, "Fractol");
-	data->img = mlx_new_image(data->mlx, WIDTH, WIDTH);
-	data->img_ptr = mlx_get_data_addr(data->img,
-			&data->bpp, &data->sl, &data->endian);
-	if ((fract_comp(argv, data)) == 0)
-		ft_close();
-	fract_init(data);
-	mlx_hook(data->win, 6, 1L < 6, mouse_julia, data);
-	mlx_hook(data->win, 17, 0L, ft_close, data);
-	mlx_key_hook(data->win, key_hook, data);
-	mlx_mouse_hook(data->win, mouse_hook, data);
-	mlx_loop(data->mlx);
+	f->mlx = mlx_init();
+	f->win = mlx_new_window(f->mlx, WIDTH, WIDTH, "Fractol");
+	f->img = mlx_new_image(f->mlx, WIDTH, WIDTH);
+	f->img_ptr = mlx_get_data_addr(f->img,
+			&f->bpp, &f->sl, &f->endian);
+	if ((f_pick(argv, f)) == 0)
+		bye();
+	f_ini(f);
+	mlx_hook(f->win, 6, 1L < 6, julia_mouse, f);
+	mlx_hook(f->win, 17, 0L, bye, f);
+	mlx_key_hook(f->win, keyboard_hook, f);
+	mlx_mouse_hook(f->win, mouse_hook, f);
+	mlx_loop(f->mlx);
 }

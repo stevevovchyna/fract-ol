@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   burningship.c                                      :+:      :+:    :+:   */
+/*   tricorn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/26 16:27:07 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/26 16:45:17 by svovchyn         ###   ########.fr       */
+/*   Created: 2019/02/26 16:34:11 by svovchyn          #+#    #+#             */
+/*   Updated: 2019/02/26 16:45:24 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void			burningship_math(t_fract *f)
+void			tricorn_math(t_fract *f)
 {
 	f->xr = f->x / f->scale + f->xs;
 	f->zyr = f->y / f->scale + f->ys;
@@ -23,17 +23,17 @@ void			burningship_math(t_fract *f)
 			f->yr < 4 && f->iter < f->iter_max)
 	{
 		f->temp = f->zxr * f->zxr - f->yr * f->yr + f->xr;
-		f->yr = fabsl(2 * f->zxr * f->yr) + f->zyr;
+		f->yr = -2 * (f->zxr * f->yr) + f->zyr;
 		f->zxr = f->temp;
 		f->iter++;
 	}
 	if (f->iter == f->iter_max)
 		pixel_to_image(f, f->x, f->y, 0x000000);
 	else
-		pixel_to_image(f, f->x, f->y, (f->color * f->iter));
+		pixel_to_image(f, f->x, f->y, f->color * f->iter);
 }
 
-void			*burningship(void *tab)
+void			*tricorn(void *tab)
 {
 	int			temp;
 	t_fract		*f;
@@ -46,7 +46,7 @@ void			*burningship(void *tab)
 		f->y = temp;
 		while (f->y < f->y_top)
 		{
-			burningship_math(f);
+			tricorn_math(f);
 			f->y++;
 		}
 		f->x++;
@@ -54,7 +54,7 @@ void			*burningship(void *tab)
 	return (tab);
 }
 
-void			b_pthread(t_fract *f)
+void			t_pthread(t_fract *f)
 {
 	int			i;
 	t_fract		tab[NUMBER];
@@ -66,7 +66,7 @@ void			b_pthread(t_fract *f)
 		ft_memcpy((void*)&tab[i], (void*)f, sizeof(t_fract));
 		tab[i].y = T_WIDTH * i;
 		tab[i].y_top = T_WIDTH * (i + 1);
-		pthread_create(&t[i], NULL, burningship, &tab[i]);
+		pthread_create(&t[i], NULL, tricorn, &tab[i]);
 		i++;
 	}
 	while (i--)

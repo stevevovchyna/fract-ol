@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/02/26 16:34:59 by svovchyn          #+#    #+#              #
+#    Updated: 2019/02/26 16:35:04 by svovchyn         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 .PHONY: all clean fclean re lft lftclean lftfclean lftre mlx mlxclean mlxre
 
 NAME := fractol

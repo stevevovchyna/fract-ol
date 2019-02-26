@@ -1,73 +1,85 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   julia.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/26 16:34:15 by svovchyn          #+#    #+#             */
+/*   Updated: 2019/02/26 16:45:29 by svovchyn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-int				mouse_julia(int x, int y, t_fractol *data)
+int				julia_mouse(int x, int y, t_fract *f)
 {
-	if (data->fract == 1 && data->julia_mouse == 1)
+	if (f->fractal == 1 && f->julia_mouse == 1)
 	{
-		data->c_r = x * 2;
-		data->c_i = y * 2 - 800;
-		fract_calc(data);
+		f->xr = x * 2;
+		f->zyr = y * 2 - 800;
+		f_calc(f);
 	}
 	return (0);
 }
 
-void			julia_calc(t_fractol *data)
+void			julia_math(t_fract *f)
 {
-	data->z_r = data->x / data->zoom + data->x1;
-	data->z_i = data->y / data->zoom + data->y1;
-	data->it = 0;
-	while (data->z_r * data->z_r + data->z_i
-			* data->z_i < 4 && data->it < data->it_max)
+	f->zxr = f->x / f->scale + f->xs;
+	f->yr = f->y / f->scale + f->ys;
+	f->iter = 0;
+	while (f->zxr * f->zxr + f->yr
+			* f->yr < 4 && f->iter < f->iter_max)
 	{
-		data->tmp = data->z_r;
-		data->z_r = data->z_r * data->z_r -
-			data->z_i * data->z_i - 0.8 + (data->c_r / WIDTH);
-		data->z_i = 2 * data->z_i * data->tmp + data->c_i / WIDTH;
-		data->it++;
+		f->temp = f->zxr;
+		f->zxr = f->zxr * f->zxr -
+			f->yr * f->yr - 0.8 + (f->xr / WIDTH);
+		f->yr = 2 * f->yr * f->temp + f->zyr / WIDTH;
+		f->iter++;
 	}
-	if (data->it == data->it_max)
-		put_pxl_to_img(data, data->x, data->y, 0x000000);
+	if (f->iter == f->iter_max)
+		pixel_to_image(f, f->x, f->y, 0x000000);
 	else
-		put_pxl_to_img(data, data->x, data->y, (data->color * data->it));
+		pixel_to_image(f, f->x, f->y, (f->color * f->iter));
 }
 
 void			*julia(void *tab)
 {
-	int			tmp;
-	t_fractol	*data;
+	int			temp;
+	t_fract		*f;
 
-	data = (t_fractol *)tab;
-	data->x = 0;
-	tmp = data->y;
-	while (data->x < WIDTH)
+	f = (t_fract *)tab;
+	f->x = 0;
+	temp = f->y;
+	while (f->x < WIDTH)
 	{
-		data->y = tmp;
-		while (data->y < data->y_max)
+		f->y = temp;
+		while (f->y < f->y_top)
 		{
-			julia_calc(data);
-			data->y++;
+			julia_math(f);
+			f->y++;
 		}
-		data->x++;
+		f->x++;
 	}
 	return (tab);
 }
 
-void			julia_pthread(t_fractol *data)
+void			j_pthread(t_fract *f)
 {
-	t_fractol	tab[THREAD_NUMBER];
-	pthread_t	t[THREAD_NUMBER];
 	int			i;
+	t_fract		tab[NUMBER];
+	pthread_t	t[NUMBER];
 
 	i = 0;
-	while (i < THREAD_NUMBER)
+	while (i < NUMBER)
 	{
-		ft_memcpy((void*)&tab[i], (void*)data, sizeof(t_fractol));
-		tab[i].y = THREAD_WIDTH * i;
-		tab[i].y_max = THREAD_WIDTH * (i + 1);
+		ft_memcpy((void*)&tab[i], (void*)f, sizeof(t_fract));
+		tab[i].y = T_WIDTH * i;
+		tab[i].y_top = T_WIDTH * (i + 1);
 		pthread_create(&t[i], NULL, julia, &tab[i]);
 		i++;
 	}
 	while (i--)
 		pthread_join(t[i], NULL);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	mlx_put_image_to_window(f->mlx, f->win, f->img, 0, 0);
 }

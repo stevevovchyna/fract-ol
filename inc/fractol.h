@@ -1,17 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fractol.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/26 16:34:29 by svovchyn          #+#    #+#             */
+/*   Updated: 2019/02/26 17:22:59 by svovchyn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FRACTOL_H
 # define FRACTOL_H
-
-# include <stdio.h>
-
 
 # include <mlx.h>
 # include <math.h>
 # include "libft.h"
 # include <stdlib.h>
 # include <pthread.h>
-# define WIDTH 1000
-# define THREAD_WIDTH 5
-# define THREAD_NUMBER 200
+# define WIDTH 600
+# define T_WIDTH 5
+# define NUMBER 120
 
 # define ESC 53
 # define PLUS 69
@@ -26,6 +35,9 @@
 # define COLOR3 20
 # define COLOR4 21
 # define COLOR5 23
+# define COLOR6 22
+# define COLOR7 26
+# define COLOR8 28
 # define FREEZEJULIA 3
 # define LEFTMOUSE 1
 # define RIGHTMOUSE 2
@@ -35,7 +47,7 @@
 # define INIT5(a, b, c, d, e, f, g, h, i, j) a = b; c = d; e = f; g = h; i = j;
 # define INIT3(a, b, c, d, e, f) a = b; c = d; e = f;
 
-typedef struct		s_fractol
+typedef struct		s_fract
 {
 	void			*mlx;
 	void			*win;
@@ -44,54 +56,49 @@ typedef struct		s_fractol
 	int				endian;
 	int				sl;
 	int				bpp;
-	int				fract;
+	int				fractal;
 	int				color;
 	int				julia_mouse;
 	int				x;
 	int				y;
-	int				y_max;
-	int				it;
-	int				it_max;
-	long double		zoom;
-	long double		x1;
-	long double		y1;
-	long double		c_r;
-	long double		c_i;
-	long double		z_r;
-	long double		z_i;
-	long double		tmp;
-}					t_fractol;
+	int				y_top;
+	int				iter;
+	int				iter_max;
+	long double		scale;
+	long double		xs;
+	long double		ys;
+	long double		xr;
+	long double		zyr;
+	long double		zxr;
+	long double		yr;
+	long double		temp;
+}					t_fract;
 
-void				run_fractal(t_fractol *data, char **argv);
+int					bye(void);
+void				pixel_to_image(t_fract *f, int x, int y, int color);
+void				f_calc(t_fract *f);
+void				f_ini(t_fract *f);
+int					f_pick(char **argv, t_fract *f);
+void				run_fractal(t_fract *f, char **argv);
 
-int					key_hook(int key, t_fractol *data);
-void				zoom_in(int x, int y, t_fractol *data);
-void				zoom_out(int x, int y, t_fractol *data);
-int					mouse_hook(int mousekey, int x, int y, t_fractol *data);
+int					keyboard_hook(int key, t_fract *f);
+int					mouse_hook(int mousekey, int x, int y, t_fract *f);
 
-void				mandelbrot_init(t_fractol *data);
-void				mandelbrot_calc(t_fractol *data);
+void				mandelbrot_math(t_fract *f);
 void				*mandelbrot(void *tab);
-void				mandelbrot_pthread(t_fractol *data);
+void				m_pthread(t_fract *f);
 
-int					mouse_julia(int x, int y, t_fractol *data);
-void				julia_init(t_fractol *data);
-void				julia_calc(t_fractol *data);
+int					julia_mouse(int x, int y, t_fract *f);
+void				julia_math(t_fract *f);
 void				*julia(void *tab);
-void				julia_pthread(t_fractol *data);
+void				j_pthread(t_fract *f);
 
-void				burningship_init(t_fractol *data);
-void				burningship_calc(t_fractol *data);
+void				tricorn_math(t_fract *f);
+void				*tricorn(void *tab);
+void				t_pthread(t_fract *f);
+
+void				burningship_math(t_fract *f);
 void				*burningship(void *tab);
-void				burningship_pthread(t_fractol *data);
-
-int					ft_close(void);
-void				put_pxl_to_img(t_fractol *data, int x, int y, int color);
-void				put_text(t_fractol *data);
-
-void				fract_calc(t_fractol *data);
-void				fract_init(t_fractol *data);
-void				mlx_win_init(t_fractol *data);
-int					fract_comp(char **argv, t_fractol *data);
+void				b_pthread(t_fract *f);
 
 #endif
