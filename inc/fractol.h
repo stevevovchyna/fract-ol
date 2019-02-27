@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:29 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 13:51:40 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 14:08:52 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct		s_fract
 }					t_fract;
 
 int					bye(void);
+void				run_two_fractals(t_fract *f, char **argv);
+
 void				pixel_to_image(t_fract *f, int x, int y, int color);
 void				f_calc(t_fract *f);
 void				f_ini(t_fract *f);
