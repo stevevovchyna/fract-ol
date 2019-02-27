@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:29 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 11:09:10 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 13:51:40 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct		s_fract
 	int				y_top;
 	int				iter;
 	int				iter_max;
+	int				i;
 	long double		scale;
 	long double		xs;
 	long double		ys;
@@ -79,8 +80,8 @@ int					bye(void);
 void				pixel_to_image(t_fract *f, int x, int y, int color);
 void				f_calc(t_fract *f);
 void				f_ini(t_fract *f);
-int					f_pick(char **argv, t_fract *f);
-void				run_fractal(t_fract *f, char **argv);
+int					f_pick(char **argv, t_fract *f, int n);
+void				run_fractal(t_fract *f, char **argv, int n);
 
 int					keyboard_hook(int key, t_fract *f);
 int					mouse_hook(int mousekey, int x, int y, t_fract *f);

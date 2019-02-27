@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:24 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 11:23:47 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 14:03:44 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ void	f_ini(t_fract *f)
 	f_calc(f);
 }
 
-int		f_pick(char **argv, t_fract *f)
+int		f_pick(char **argv, t_fract *f, int n)
 {
-	if (ft_strcmp(argv[1], "mandelbrot") == 0)
+	if (ft_strcmp(argv[n], "mandelbrot") == 0)
 		f->fractal = 0;
-	else if (ft_strcmp(argv[1], "julia") == 0)
+	else if (ft_strcmp(argv[n], "julia") == 0)
 		f->fractal = 1;
-	else if (ft_strcmp(argv[1], "burningship") == 0)
+	else if (ft_strcmp(argv[n], "burningship") == 0)
 		f->fractal = 2;
-	else if (ft_strcmp(argv[1], "tricorn") == 0)
+	else if (ft_strcmp(argv[n], "tricorn") == 0)
 		f->fractal = 3;
 	else
 	{
@@ -80,14 +80,14 @@ int		f_pick(char **argv, t_fract *f)
 	return (1);
 }
 
-void	run_fractal(t_fract *f, char **argv)
+void	run_fractal(t_fract *f, char **argv, int n)
 {
 	f->mlx = mlx_init();
 	f->win = mlx_new_window(f->mlx, WIDTH, WIDTH, "Fractol");
 	f->img = mlx_new_image(f->mlx, WIDTH, WIDTH);
 	f->img_ptr = mlx_get_data_addr(f->img,
 			&f->bpp, &f->sl, &f->endian);
-	if ((f_pick(argv, f)) == 0)
+	if ((f_pick(argv, f, n)) == 0)
 		bye();
 	f_ini(f);
 	mlx_hook(f->win, 6, 1L < 6, julia_mouse, f);

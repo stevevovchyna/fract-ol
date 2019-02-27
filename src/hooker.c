@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:21 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 11:23:26 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 13:18:54 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		keyboard_hook(int key, t_fract *f)
 {
 	if (key == ESC)
-		exit(1);
+		bye();
 	if (key == RESETSPACE)
 		f_ini(f);
 	if (key == KISLATA)
