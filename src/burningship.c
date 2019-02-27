@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:27:07 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/26 16:45:17 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 16:45:01 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void			burningship_math(t_fract *f)
 		pixel_to_image(f, f->x, f->y, (f->color * f->iter));
 }
 
-void			*burningship(void *tab)
+void			*burningship(void *arg)
 {
 	int			temp;
 	t_fract		*f;
 
-	f = (t_fract *)tab;
+	f = (t_fract *)arg;
 	f->x = 0;
 	temp = f->y;
 	while (f->x < WIDTH)
@@ -51,22 +51,22 @@ void			*burningship(void *tab)
 		}
 		f->x++;
 	}
-	return (tab);
+	return (arg);
 }
 
 void			b_pthread(t_fract *f)
 {
 	int			i;
-	t_fract		tab[NUMBER];
+	t_fract		arg[NUMBER];
 	pthread_t	t[NUMBER];
 
 	i = 0;
 	while (i < NUMBER)
 	{
-		ft_memcpy((void*)&tab[i], (void*)f, sizeof(t_fract));
-		tab[i].y = T_WIDTH * i;
-		tab[i].y_top = T_WIDTH * (i + 1);
-		pthread_create(&t[i], NULL, burningship, &tab[i]);
+		ft_memcpy((void*)&arg[i], (void*)f, sizeof(t_fract));
+		arg[i].y = T_WIDTH * i;
+		arg[i].y_top = T_WIDTH * (i + 1);
+		pthread_create(&t[i], NULL, burningship, &arg[i]);
 		i++;
 	}
 	while (i--)

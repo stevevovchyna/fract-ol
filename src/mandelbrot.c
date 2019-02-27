@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:18 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 11:45:16 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 16:45:29 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void			mandelbrot_math(t_fract *f)
 		pixel_to_image(f, f->x, f->y, f->color * f->iter);
 }
 
-void			*mandelbrot(void *tab)
+void			*mandelbrot(void *arg)
 {
 	int			temp;
 	t_fract		*f;
 
-	f = (t_fract *)tab;
+	f = (t_fract *)arg;
 	f->x = 0;
 	temp = f->y;
 	while (f->x < WIDTH)
@@ -52,22 +52,22 @@ void			*mandelbrot(void *tab)
 		}
 		f->x++;
 	}
-	return (tab);
+	return (arg);
 }
 
 void			m_pthread(t_fract *f)
 {
 	int			i;
-	t_fract		tab[NUMBER];
+	t_fract		arg[NUMBER];
 	pthread_t	t[NUMBER];
 
 	i = 0;
 	while (i < NUMBER)
 	{
-		ft_memcpy((void*)&tab[i], (void*)f, sizeof(t_fract));
-		tab[i].y = T_WIDTH * i;
-		tab[i].y_top = T_WIDTH * (i + 1);
-		pthread_create(&t[i], NULL, mandelbrot, &tab[i]);
+		ft_memcpy((void*)&arg[i], (void*)f, sizeof(t_fract));
+		arg[i].y = T_WIDTH * i;
+		arg[i].y_top = T_WIDTH * (i + 1);
+		pthread_create(&t[i], NULL, mandelbrot, &arg[i]);
 		i++;
 	}
 	while (i--)

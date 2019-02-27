@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:29 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 15:34:11 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 16:56:25 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,20 @@ int					keyboard_hook(int key, t_fract *f);
 int					mouse_hook(int mousekey, int x, int y, t_fract *f);
 
 void				mandelbrot_math(t_fract *f);
-void				*mandelbrot(void *tab);
+void				*mandelbrot(void *arg);
 void				m_pthread(t_fract *f);
 
 int					julia_mouse(int x, int y, t_fract *f);
 void				julia_math(t_fract *f);
-void				*julia(void *tab);
+void				*julia(void *arg);
 void				j_pthread(t_fract *f);
 
 void				tricorn_math(t_fract *f);
-void				*tricorn(void *tab);
+void				*tricorn(void *arg);
 void				t_pthread(t_fract *f);
 
 void				burningship_math(t_fract *f);
-void				*burningship(void *tab);
+void				*burningship(void *arg);
 void				b_pthread(t_fract *f);
 
 #endif
