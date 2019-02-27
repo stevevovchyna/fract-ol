@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:29 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/26 17:22:59 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 11:09:10 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FRACTOL_H
 
 # include <mlx.h>
+# include <stdio.h>
 # include <math.h>
 # include "libft.h"
 # include <stdlib.h>

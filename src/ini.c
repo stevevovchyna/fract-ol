@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:24 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/26 16:53:36 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/02/27 11:23:47 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ void	f_ini(t_fract *f)
 	}
 	else if (f->fractal == 1)
 	{
-		INIT5(f->iter_max, 50, f->scale, 180, f->xs, -2.0,
-				f->ys, -1.9, f->color, 771);
+		INIT5(f->iter_max, 50, f->scale, 160, f->xs, -1.87,
+				f->ys, -1.87, f->color, 771);
 		INIT3(f->xr, 0.285, f->zyr, 0.01, f->julia_mouse, 1);
 	}
 	else if (f->fractal == 2)
 	{
-		INIT5(f->iter_max, 50, f->scale, 200, f->xs, -2,
-				f->ys, -2, f->color, 521);
+		INIT5(f->iter_max, 50, f->scale, 150, f->xs, -2.0,
+				f->ys, -2.0, f->color, 1537);
 	}
 	else if (f->fractal == 3)
 	{
-		INIT5(f->iter_max, 50, f->scale, 200, f->xs, -2,
-				f->ys, -2, f->color, 521);
+		INIT5(f->iter_max, 50, f->scale, 150, f->xs, -2,
+				f->ys, -2, f->color, 523001);
 	}
 	f_calc(f);
 }
