@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:26 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 14:08:56 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/03/13 13:46:12 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int			bye(void)
 {
+	system("leaks fractol");
 	exit(1);
 	return (0);
 }
@@ -24,11 +25,12 @@ void		run_two_fractals(t_fract *f, char **argv)
 		bye();
 	else
 	{
+		helper();
 		f->i = fork();
 		if (f->i == 0)
-			run_fractal(f, argv, 1);
+			run_fractal(f, 0, argv, 1);
 		else
-			run_fractal(f, argv, 2);
+			run_fractal(f, 0, argv, 2);
 	}
 }
 
@@ -39,10 +41,10 @@ int			main(int argc, char **argv)
 	if (!(f = (t_fract *)malloc(sizeof(t_fract))))
 		return (-1);
 	if (argc == 2)
-		run_fractal(f, argv, 1);
+		run_fractal(f, argc, argv, 1);
 	else if (argc == 3)
 		run_two_fractals(f, argv);
 	else
-		ft_putendl("Usage: /fractol mandelbrot|julia|burningship|tricorn");
+		warning();
 	return (0);
 }

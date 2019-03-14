@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:29 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 16:56:25 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/03/13 17:50:32 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,19 @@
 # define COLOR4 21
 # define COLOR5 23
 # define COLOR6 22
-# define COLOR7 26
-# define COLOR8 28
 # define FREEZEJULIA 3
 # define LEFTMOUSE 1
 # define RIGHTMOUSE 2
 # define WHEELUP 4
 # define WHEELDOWN 5
+# define MANDELBROT 46
+# define JULIA 38
+# define BURNINGSHIP 11
+# define TRICORN 17
+# define MULTIBROT 45
+# define LIVEBROT 37
+# define POWUP 116
+# define POWDOWN 121
 
 # define INIT5(a, b, c, d, e, f, g, h, i, j) a = b; c = d; e = f; g = h; i = j;
 # define INIT3(a, b, c, d, e, f) a = b; c = d; e = f;
@@ -60,8 +66,10 @@ typedef struct		s_fract
 	int				fractal;
 	int				color;
 	int				julia_mouse;
+	int				live_mouse;
 	int				x;
 	int				y;
+	int				n;
 	int				y_top;
 	int				iter;
 	int				iter_max;
@@ -83,9 +91,11 @@ void				pixel_to_image(t_fract *f, int x, int y, int color);
 void				f_calc(t_fract *f);
 void				f_ini(t_fract *f);
 int					f_pick(char **argv, t_fract *f, int n);
-void				run_fractal(t_fract *f, char **argv, int n);
+void				run_fractal(t_fract *f, int argc, char **argv, int n);
 
 int					keyboard_hook(int key, t_fract *f);
+void				pauwa(int key, t_fract *f);
+void				selector(int key, t_fract *f);
 int					mouse_hook(int mousekey, int x, int y, t_fract *f);
 
 void				mandelbrot_math(t_fract *f);
@@ -104,5 +114,16 @@ void				t_pthread(t_fract *f);
 void				burningship_math(t_fract *f);
 void				*burningship(void *arg);
 void				b_pthread(t_fract *f);
+
+void				helper(void);
+void				warning(void);
+
+void				multi_pthread(t_fract *f);
+void				*multibrot(void *arg);
+void				multibrot_math(t_fract *f);
+
+void				livebrot_pthread(t_fract *f);
+void				*livebrot(void *arg);
+void				livebrot_math(t_fract *f);
 
 #endif

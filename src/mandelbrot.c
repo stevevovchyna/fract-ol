@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:18 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 16:45:29 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/03/13 16:10:17 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void			mandelbrot_math(t_fract *f)
 			f->yr < 4 && f->iter < f->iter_max)
 	{
 		f->temp = f->zxr;
-		f->zxr = f->zxr * f->zxr -
-			f->yr * f->yr + f->xr;
+		f->zxr = f->zxr * f->zxr - f->yr * f->yr + f->xr;
 		f->yr = 2 * f->yr * f->temp + f->zyr;
 		f->iter++;
 	}

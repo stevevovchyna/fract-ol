@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:15 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 16:45:24 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/03/13 17:50:20 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int				julia_mouse(int x, int y, t_fract *f)
 {
-	if (f->fractal == 1 && f->julia_mouse == 1)
+	if ((f->fractal == 1 && f->julia_mouse == 1) ||
+		(f->fractal == 5 && f->julia_mouse == 1))
 	{
 		f->xr = x * 2;
 		f->zyr = y * 2 - 800;

@@ -6,7 +6,7 @@
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/26 16:34:24 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/27 16:57:00 by svovchyn         ###   ########.fr       */
+/*   Updated: 2019/03/13 18:19:00 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,34 @@ void	f_calc(t_fract *f)
 		b_pthread(f);
 	else if (f->fractal == 3)
 		t_pthread(f);
+	else if (f->fractal == 4)
+		multi_pthread(f);
+	else if (f->fractal == 5)
+		livebrot_pthread(f);
 }
 
 void	f_ini(t_fract *f)
 {
-	if (f->fractal == 0)
-	{
-		INIT5(f->iter_max, 50, f->scale, 220, f->xs, -2,
-				f->ys, -1.3, f->color, 771);
-	}
-	else if (f->fractal == 1)
+	if (f->fractal == 1 || f->fractal == 5)
 	{
 		INIT5(f->iter_max, 50, f->scale, 160, f->xs, -1.87,
-				f->ys, -1.87, f->color, 771);
+				f->ys, -1.87, f->color, 21);
 		INIT3(f->xr, 0.285, f->zyr, 0.01, f->julia_mouse, 1);
+		if (!f->n)
+			f->fractal == 5 ? f->n = 2 : 0;
 	}
-	else if (f->fractal == 2)
-	{
-		INIT5(f->iter_max, 50, f->scale, 150, f->xs, -2.0,
-				f->ys, -2.0, f->color, 1537);
-	}
-	else if (f->fractal == 3)
+	else if (f->fractal == 0 || f->fractal == 2 || f->fractal == 3
+			|| f->fractal == 4)
 	{
 		INIT5(f->iter_max, 50, f->scale, 150, f->xs, -2,
-				f->ys, -2, f->color, 523001);
+				f->ys, -2, f->color, 771);
 	}
+	f->fractal == 2 ? f->color = 1537 : 0;
+	f->fractal == 3 ? f->color = 254686 : 0;
+	f->fractal == 4 ? f->color = 521 : 0;
+	f->fractal == 5 ? f->color = 1537 : 0;
+	if (!f->n)
+		f->fractal == 4 ? f->n = 10 : 0;
 	f_calc(f);
 }
 
@@ -72,15 +75,19 @@ int		f_pick(char **argv, t_fract *f, int n)
 		f->fractal = 2;
 	else if (ft_strcmp(argv[n], "tricorn") == 0)
 		f->fractal = 3;
+	else if (ft_strcmp(argv[n], "multibrot") == 0)
+		f->fractal = 4;
+	else if (ft_strcmp(argv[n], "livebrot") == 0)
+		f->fractal = 5;
 	else
 	{
-		ft_putendl("Usage: /fractol mandelbrot|julia|burningship|tricorn");
+		warning();
 		return (0);
 	}
 	return (1);
 }
 
-void	run_fractal(t_fract *f, char **argv, int n)
+void	run_fractal(t_fract *f, int argc, char **argv, int n)
 {
 	f->mlx = mlx_init();
 	f->win = mlx_new_window(f->mlx, WIDTH, WIDTH, "Fractol");
@@ -89,6 +96,7 @@ void	run_fractal(t_fract *f, char **argv, int n)
 			&f->bpp, &f->sl, &f->endian);
 	if ((f_pick(argv, f, n)) == 0)
 		bye();
+	argc == 2 ? helper() : 0;
 	f_ini(f);
 	mlx_hook(f->win, 6, 1L < 6, julia_mouse, f);
 	mlx_hook(f->win, 17, 0L, bye, f);

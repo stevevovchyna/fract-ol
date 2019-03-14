@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   burningship.c                                      :+:      :+:    :+:   */
+/*   livebrot.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svovchyn <svovchyn@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/26 16:27:07 by svovchyn          #+#    #+#             */
-/*   Updated: 2019/02/28 15:00:02 by svovchyn         ###   ########.fr       */
+/*   Created: 2019/03/13 16:20:25 by svovchyn          #+#    #+#             */
+/*   Updated: 2019/03/13 17:51:23 by svovchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void			burningship_math(t_fract *f)
+void			livebrot_math(t_fract *f)
 {
-	f->xr = f->x / f->scale + f->xs;
-	f->zyr = f->y / f->scale + f->ys;
-	f->zxr = 0;
-	f->yr = 0;
+	f->zxr = f->x / f->scale + f->xs;
+	f->yr = f->y / f->scale + f->ys;
 	f->iter = 0;
 	while (f->zxr * f->zxr + f->yr *
 			f->yr < 4 && f->iter < f->iter_max)
 	{
-		f->temp = f->zxr * f->zxr - f->yr * f->yr + f->xr;
-		f->yr = fabsl(2 * f->zxr * f->yr) + f->zyr;
-		f->zxr = f->temp;
+		f->temp = f->zxr;
+		f->zxr = pow((f->zxr * f->zxr + f->yr * f->yr), (f->n / 2)) *
+				cos(f->n * atan2(f->yr, f->zxr)) + (f->xr / WIDTH);
+		f->yr = pow((f->temp * f->temp + f->yr * f->yr), (f->n / 2)) *
+				sin(f->n * atan2(f->yr, f->temp)) + (f->zyr / WIDTH);
 		f->iter++;
 	}
 	if (f->iter == f->iter_max)
@@ -33,7 +33,7 @@ void			burningship_math(t_fract *f)
 		pixel_to_image(f, f->x, f->y, (f->color * f->iter));
 }
 
-void			*burningship(void *arg)
+void			*livebrot(void *arg)
 {
 	int			temp;
 	t_fract		*f;
@@ -46,7 +46,7 @@ void			*burningship(void *arg)
 		f->y = temp;
 		while (f->y < f->y_top)
 		{
-			burningship_math(f);
+			livebrot_math(f);
 			f->y++;
 		}
 		f->x++;
@@ -54,7 +54,7 @@ void			*burningship(void *arg)
 	return (arg);
 }
 
-void			b_pthread(t_fract *f)
+void			livebrot_pthread(t_fract *f)
 {
 	int			i;
 	t_fract		arg[NUMBER];
@@ -66,7 +66,7 @@ void			b_pthread(t_fract *f)
 		ft_memcpy((void*)&arg[i], (void*)f, sizeof(t_fract));
 		arg[i].y = T_WIDTH * i;
 		arg[i].y_top = T_WIDTH * (i + 1);
-		pthread_create(&t[i], NULL, burningship, &arg[i]);
+		pthread_create(&t[i], NULL, livebrot, &arg[i]);
 		i++;
 	}
 	while (i--)
